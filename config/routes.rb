@@ -3,6 +3,14 @@ Rails.application.routes.draw do
 
   resources :questions
   devise_for :users
+
+  post 'answers/new_answer'
+  post 'likes/like_question/:id' => 'likes#like_question', as: 'like_question'
+  post 'likes/dislike_question/:id' => 'likes#dislike_question', as: 'dislike_question'
+
+  post 'likes/like_answer/:id' => 'likes#like_answer', as: 'like_answer'
+  post 'likes/dislike_answer/:id' => 'likes#dislike_answer', as: 'dislike_answer'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

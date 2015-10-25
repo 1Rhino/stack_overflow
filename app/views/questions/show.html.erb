@@ -1,24 +1,65 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>User:</strong>
-  <%= @question.user_id %>
-</p>
+<div class='question_title'>
+  <h2><%= @question.title %></h2>
+</div>
+<hr/>
+<div>
+  <div class='question_votes col-md-1 col-sm-1'>
+    <b class='like_button'><%= link_to 'Like', like_question_path(id: @question.id), remote: true, method: 'post' %></b> <br/>
+    <span class='total_like'><%= @question.likes.count %></span><br/>
+    <b class='dislike_button'><%= link_to 'Dislike', dislike_question_path(id: @question.id), remote: true, method: 'post' %></b> <br/>
+  </div>
+  <div class="question_content col-md-11 col-sm-11">
+    <%= @question.content %>
+  </div>
+  <div style="clear:both"></div>
+</div>
+<hr/>
 
 <p>
-  <strong>Title:</strong>
-  <%= @question.title %>
-</p>
-
-<p>
+  <strong>User</strong>
+  <b><%= @question.user.user_name %></b> <br/>
   <strong>Tags:</strong>
   <%= @question.tags %>
 </p>
 
-<p>
-  <strong>Content:</strong>
-  <%= @question.content %>
-</p>
+<% if user_signed_in? %>
+<%= link_to 'Edit', edit_question_path(@question) %>
+<% end %>
 
-<%= link_to 'Edit', edit_question_path(@question) %> |
-<%= link_to 'Back', questions_path %>
+<br/>
+<h3><%= @question.answers.count %> answers</h3>
+
+<div class="question_answers">
+  <% @question.answers.each do |answer| %>
+  <hr/>
+
+  <div class="answer_row">
+    <div class='answer_votes col-md-1 col-sm-1'>
+      <b class='like_button'><%= link_to 'Like', like_answer_path(id: answer.id), remote: true, method: 'post' %></b> <br/>
+      <span class='total_like'><%= answer.likes.count %></span><br/>
+      <b class='dislike_button'><%= link_to 'Dislike', dislike_answer_path(id: answer.id), remote: true, method: 'post' %></b> <br/>
+    </div>
+
+    <div class="answer_content col-md-11 col-sm-11">
+      <%= answer.content %>
+    </div>
+
+    <br/>
+    <i>Author:</i><b><%= answer.user.user_name %></b>
+  </div>
+  <% end %>
+</div>
+
+<% if user_signed_in? %>
+  <hr/>
+  <b>Your answers</b>
+  <%= form_tag('/answers/new_answer', method: "post", id: "new_answer_form", remote: true) do %>
+    <%= hidden_field_tag 'answer[question_id]', @question.id %>
+    <%= text_area_tag 'answer[content]' %>
+    <%= submit_tag 'Post', data: { confirm: 'Please check your answer before post! Are you sure?' } %>
+  <% end -%>
+<% else %>
+  <b><%= link_to 'You need to login to write answer', new_user_session_path %></b>
+<% end -%>

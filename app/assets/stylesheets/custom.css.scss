@@ -12,3 +12,40 @@
 .main_content{
   margin-top: 100px;
 }
+
+
+#new_answer_form{
+  #answer_content{
+    width: 100%;
+    height: 150px;
+  }
+}
+
+.question_answers{
+  .answer_row{
+    padding-left: 40px;
+  }
+}
+
+.total_like{
+  font-weight: bold;
+  font-size: 20px;
+  color: red
+}
+.answer_content{
+  padding: 10px;
+  border: 1px solid #eee;
+}
+
+footer {
+  color: #fff;
+  width: 100%;
+  padding-top: 30px;
+  text-align: center;
+  font-size: 13px;
+  #copy_right {
+    background-color:#202020;
+    padding:10px;
+    color:#A0A0A0;
+  }
+}
